@@ -1,0 +1,185 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    int rgm;
+    char nome[100];
+} t_Aluno;
+
+typedef struct No {
+    t_Aluno aluno;
+    struct No *esq, *dir;
+} No;
+
+//Funções de criação e inserção
+No* criarNo(int rgm, const char* nome) {
+    No* novo = (No*)malloc(sizeof(No));
+    novo->aluno.rgm = rgm;
+    strcpy(novo->aluno.nome, nome);
+    novo->esq = novo->dir = NULL;
+    return novo;
+}
+
+No* inserir(No* raiz, int rgm, const char* nome) {
+    if (raiz == NULL) return criarNo(rgm, nome);
+
+    if (rgm < raiz->aluno.rgm)
+        raiz->esq = inserir(raiz->esq, rgm, nome);
+    else if (rgm > raiz->aluno.rgm)
+        raiz->dir = inserir(raiz->dir, rgm, nome);
+    else
+        printf("RGM já existente na árvore.\n");
+    return raiz;
+}
+
+// Funções de busca e percurso 
+No* buscar(No* raiz, int rgm) {
+    if (raiz == NULL || raiz->aluno.rgm == rgm)
+        return raiz;
+    if (rgm < raiz->aluno.rgm)
+        return buscar(raiz->esq, rgm);
+    else
+        return buscar(raiz->dir, rgm);
+}
+
+void preOrdem(No* raiz) {
+    if (raiz) {
+        printf("%d - %s\n", raiz->aluno.rgm, raiz->aluno.nome);
+        preOrdem(raiz->esq);
+        preOrdem(raiz->dir);
+    }
+}
+
+void inOrdem(No* raiz) {
+    if (raiz) {
+        inOrdem(raiz->esq);
+        printf("%d - %s\n", raiz->aluno.rgm, raiz->aluno.nome);
+        inOrdem(raiz->dir);
+    }
+}
+
+void posOrdem(No* raiz) {
+    if (raiz) {
+        posOrdem(raiz->esq);
+        posOrdem(raiz->dir);
+        printf("%d - %s\n", raiz->aluno.rgm, raiz->aluno.nome);
+    }
+}
+
+//Funções de remoção e esvaziamento 
+No* encontrarMinimo(No* raiz) {
+    while (raiz && raiz->esq)
+        raiz = raiz->esq;
+    return raiz;
+}
+
+No* remover(No* raiz, int rgm) {
+    if (!raiz) {
+        printf("RGM %d não encontrado.\n", rgm);
+        return NULL;
+    }
+
+    if (rgm < raiz->aluno.rgm) {
+        raiz->esq = remover(raiz->esq, rgm);
+    } else if (rgm > raiz->aluno.rgm) {
+        raiz->dir = remover(raiz->dir, rgm);
+    } else {
+        // Encontrou o nó
+        printf("Removendo: %d - %s\n", raiz->aluno.rgm, raiz->aluno.nome);
+
+        if (!raiz->esq && !raiz->dir) {
+            free(raiz);
+            return NULL;
+        }
+        else if (!raiz->esq) {
+            No* temp = raiz->dir;
+            free(raiz);
+            return temp;
+        }
+        else if (!raiz->dir) {
+            No* temp = raiz->esq;
+            free(raiz);
+            return temp;
+        }
+
+        // Dois filhos - usar sucessor
+        No* sucessor = encontrarMinimo(raiz->dir);
+        raiz->aluno = sucessor->aluno;
+        raiz->dir = remover(raiz->dir, sucessor->aluno.rgm);
+    }
+    return raiz;
+}
+
+void esvaziar(No* raiz) {
+    if (raiz) {
+        esvaziar(raiz->esq);
+        esvaziar(raiz->dir);
+        free(raiz);
+    }
+}
+
+//Função principal 
+int main() {
+    No* raiz = NULL;
+    int opcao, rgm;
+    char nome[100];
+    char tipoPercurso[4];
+
+    do {
+        printf("\n1 – INSERIR\n2 – REMOVER\n3 – PESQUISAR\n4 – ESVAZIAR\n5 – EXIBIR\n0 – SAIR\nOpção: ");
+        scanf("%d", &opcao);
+        getchar(); 
+
+        switch (opcao) {
+            case 1:
+                printf("Digite RGM: ");
+                scanf("%d", &rgm);
+                getchar();
+                printf("Digite Nome: ");
+                fgets(nome, sizeof(nome), stdin);
+                nome[strcspn(nome, "\n")] = '\0'; // remover '\n'
+                raiz = inserir(raiz, rgm, nome);
+                break;
+            case 2:
+                printf("Digite RGM para remover: ");
+                scanf("%d", &rgm);
+                raiz = remover(raiz, rgm);
+                break;
+            case 3:
+                printf("Digite RGM para buscar: ");
+                scanf("%d", &rgm);
+                if (buscar(raiz, rgm))
+                    printf("RGM %d encontrado.\n", rgm);
+                else
+                    printf("RGM %d não encontrado.\n", rgm);
+                break;
+            case 4:
+                esvaziar(raiz);
+                raiz = NULL;
+                printf("Árvore esvaziada.\n");
+                break;
+            case 5:
+                printf("Tipo de percurso (PRE, IN, POS): ");
+                scanf("%s", tipoPercurso);
+                if (strcmp(tipoPercurso, "PRE") == 0)
+                    preOrdem(raiz);
+                else if (strcmp(tipoPercurso, "IN") == 0)
+                    inOrdem(raiz);
+                else if (strcmp(tipoPercurso, "POS") == 0)
+                    posOrdem(raiz);
+                else
+                    printf("Tipo inválido.\n");
+                break;
+            case 0:
+                esvaziar(raiz);
+                printf("Programa encerrado.\n");
+                break;
+            default:
+                printf("Opção inválida.\n");
+        }
+
+    } while (opcao != 0);
+
+    return 0;
+}
