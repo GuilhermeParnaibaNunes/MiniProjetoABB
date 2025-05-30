@@ -5,64 +5,84 @@
 
 /*Estrutura de nome noA*/
     // - Campo aluno: aluno do no;
-    // - Campo nDir: ponteiro para o próximo no a direita;
-    // - Campo nEsq: ponteiro para o próximo no a esquerda.
+    // - Campo nDir: ponteiro para o prï¿½ximo no a direita;
+    // - Campo nEsq: ponteiro para o prï¿½ximo no a esquerda.
 typedef struct noA {
     t_Aluno aluno;
     struct noA * nDir;
     struct noA * nEsq;
 } t_noA;
 
-/*t_ArvoreBB se torna outro nome para um ponteiro para nós Aluno*/
+/*t_ArvoreBB se torna outro nome para um ponteiro para nï¿½s Aluno*/
 typedef t_noA * t_ArvoreBB;
 
-/*Cria um novo nó Aluno*/
-    // - Retorna ponteiro para o nó criado;
-    // - Sem parâmetros.
+/*Cria um novo nï¿½ Aluno*/
+    // - Retorna ponteiro para o nï¿½ criado;
+    // - Sem parï¿½metros.
 t_ArvoreBB criaNoA();
 
-/*Verifica se a árvore está vazia:*/
+/*Verifica se a ï¿½rvore estï¿½ vazia:*/
     // - Retorna 1 para verdadeiro;
     // - Retorna 0 para falso;
-    // - Recebe a árvore sob análise.
+    // - Recebe a ï¿½rvore sob anï¿½lise.
 int Vazia(t_ArvoreBB);
 
-/*Insere um novo nó a árvore:*/
+/*Insere um novo nï¿½ a ï¿½rvore:*/
     // - Retorna 1 para procedimento bem-sucedido;
     // - Retorna 0 para procedimento malsucedido;
-    // - Recebe a árvore para inserção;
+    // - Recebe a ï¿½rvore para inserï¿½ï¿½o;
     // - Recebe o elemento aluno a ser inserido.
 int InserirAluno(t_ArvoreBB *, t_Aluno);
 
-/*Remove todos os nós de uma árvore:*/
+/*Remove todos os nï¿½s de uma ï¿½rvore:*/
 // - Retorna 1 para procedimento bem-sucedido;
-// - Retorna 0 para árvore vazia;
-// - Recebe a árvore sob análise.
-int ApagaArvore(t_ArvoreBB);
+// - Retorna 0 para ï¿½rvore vazia;
+// - Recebe a ï¿½rvore sob anï¿½lise.
+int ApagaArvore(t_ArvoreBB *);
 
-/*Remove um nó por RGM:*/
+/*Remove um nï¿½ por RGM:*/
     // - Retorna 1 para procedimento bem-sucedido;
     // - Retorna 0 para procedimento malsucedido;
-    // - Recebe a árvore sob analise;
-    // - Recebe o RGM do nó a ser removido.
+    // - Recebe a ï¿½rvore sob analise;
+    // - Recebe o RGM do nï¿½ a ser removido.
 int RemoverRGM(t_ArvoreBB *, char *);
 
-/*Procura um nó na lista pelo seu RGM:*/
+/*Procura um nï¿½ na lista pelo seu RGM:*/
     // - Retorna o item procurado;
-    // - Retorna NULL para RGM não encontrado;
-    // - Recebe a árvore sob análise;
+    // - Retorna NULL para RGM nï¿½o encontrado;
+    // - Recebe a ï¿½rvore sob anï¿½lise;
     // - Recebe o RGM a ser procurado.
 t_Aluno ProcurarRGM(t_ArvoreBB *, char *);
 
 /*Exibe aluno por RGM:*/
     // - Sem retorno;
-    // - Recebe a árvore;
-    // - Recebe o RGM do nó a ser exibido.
+    // - Recebe a ï¿½rvore;
+    // - Recebe o RGM do nï¿½ a ser exibido.
 void ExibirAlunoRGM(t_ArvoreBB, char *);
 
-/*Exibe árvore:*/
+/*Exibe Ã¡rvore em prÃ©, in e pÃ³s ordem:*/
     // - Sem retorno;
-    // - Recebe a árvore.
-void ExibirArvore(t_ArvoreBB); //DIVIDIR EM PRÉ, IN E PÓS
+    // - Recebe a Ã¡rvore.
+void ExibirArvore(t_ArvoreBB);
+
+/*Exibe Ã¡rvore em prÃ©-ordem:*/
+    // - Sem retorno;
+    // - Recebe a Ã¡rvore.
+void ExibirArvorePre(t_ArvoreBB);
+
+/*Exibe Ã¡rvore em in-ordem:*/
+    // - Sem retorno;
+    // - Recebe a Ã¡rvore.
+void ExibirArvoreIn(t_ArvoreBB);
+
+/*Exibe Ã¡rvore em pÃ³s-ordem:*/
+    // - Sem retorno;
+    // - Recebe a Ã¡rvore.
+void ExibirArvorePos(t_ArvoreBB);
+
+/*Exibe Ã¡rvore graficamente em prÃ©-ordem:*/
+    // - Sem retorno;
+    // - Recebe a Ã¡rvore.
+void ExibirArvoreGUIPre(t_ArvoreBB);
 
 #endif// ARVOREBB_H

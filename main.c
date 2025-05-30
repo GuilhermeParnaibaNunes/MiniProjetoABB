@@ -1,14 +1,35 @@
 #include "ArvoreBB.h"
 
 int main(){
+  setlocale(LC_ALL, "Portuguese");
   char continuar = 's';
   int sel = 1, pos, cErro, val = 0;
-  t_ArvoreBB alunosABB;
+  t_ArvoreBB alunosABB = NULL;
   t_ArvoreBB *palunosABB = &alunosABB;
+  t_Aluno aluno;
   char *RGM[9], *nome[256];
   dashDiv();
+  FILE *file = fopen("dados.csv", "r"); //Leitura e inserÃ§Ã£o de dados do arquivo CSV
 
-  /*LEITURA DOS DADOS DO ARQUIVO*/
+    if (file == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return 1;
+    }
+
+    char buffer[267];
+    printf("\n\t*** Carregando dados do arquivo CSV: ***\n");
+    while (fgets(buffer, sizeof(buffer), file)) {
+        char *token = strtok(buffer, ",");
+        if (token != NULL) {
+            strncpy(aluno.nome, token, 256);
+        }
+        token = strtok(NULL, ",");
+        if (token != NULL) {
+            strncpy(aluno.RGM, token, 8);
+        }
+        InserirAluno(palunosABB, aluno); // MÃ­nimo de mensagens
+    }
+  dashDiv();
 
   printf("\n\t*** Seja bem-vindo(a) ao nosso Sistema de Alunos (ABB)! ***\n");
   dashDiv();
@@ -29,16 +50,28 @@ int main(){
           printf("\n\t*** Informe o RGM do aluno: ");
           fgets(RGM, sizeof(RGM), stdin);
           val = validaRGM(RGM);
-        } //Validar aqui, ou só na inserção?
+        }
+        val = 0;
         while(!val){
           printf("\n\t*** Informe o nome do aluno: ");
           fgets(nome, sizeof(nome), stdin);
-          val = validaRGM(nome);
-        } //Validar aqui, ou só na inserção?
-        InserirAluno(palunosABB, t_Aluno); //INSERIR ALUNO
+          val = validaNome(nome);
+        }
+        val = 0;
+        cErro = setAluno(&aluno, RGM, nome);
+        printf("\n\t*** %s ***\n",cErro==1? "Aluno criado com sucesso: "
+               :cErro==0? "Nao foi possivel criar aluno": "Erro desconhecido");
+        cErro = InserirAluno(palunosABB, aluno);
+        printf("\n\t*** %s ***\n",cErro==1? "Aluno inserido com sucesso"
+               :cErro==0? "Nao foi possivel inserir aluno": "Erro desconhecido");
         dashDiv();
         break;
       case 2:
+        if(isVazia(alunosABB)){
+          printf("\n\t*** Arvore vazia! ***\n");
+          dashDiv();
+          break;
+        }
         printf("\n\t*** Qual o RGM do aluno que deseja apagar? ");
         while(!val){
           printf("\n\t*** Informe o RGM do aluno: ");
@@ -46,13 +79,18 @@ int main(){
           val = validaRGM(RGM);
         }
         val = 0;
-        cErro = RemoverRGM(palunosABB, RGM); //APAGAR ALUNO POR RGM
+        setRGM(&aluno, RGM); // Garante que o RGM procurado estÃ¡ no formato correto
+        cErro = RemoverRGM(palunosABB, aluno.RGM);
         printf("\n\t*** %s ***\n",cErro==1? "Aluno removido com sucesso"
-               :cErro==-1? "RGM nao encontrado":cErro==-2? "Arvore invalida"
-               :cErro==-3? "Arvore vazia": "Erro desconhecido");
+               :cErro==0? "Nao foi possivel remover aluno": "Erro desconhecido");
         dashDiv();
         break;
       case 3:
+        if(isVazia(alunosABB)){
+          printf("\n\t*** Arvore vazia! ***\n");
+          dashDiv();
+          break;
+        }
         printf("\n\t*** Qual o RGM do aluno que deseja visualizar? ");
         while(!val){
           printf("\n\t*** Informe o RGM do aluno: ");
@@ -60,17 +98,64 @@ int main(){
           val = validaRGM(RGM);
         }
         val = 0;
-        ExibirAlunoRGM(palunosABB, RGM); //EXIBIR ALUNO POR RGM
+        setRGM(&aluno, RGM); // Garante que o RGM procurado estÃ¡ no formato correto
+        ExibirAlunoRGM(alunosABB, aluno.RGM);
         dashDiv();
         break;
       case 4:
-        ApagaArvore(palunosABB); //APAGAR ÁRVORE INTEIRA
+        if(isVazia(alunosABB)){
+          printf("\n\t*** Arvore vazia! ***\n");
+          dashDiv();
+          break;
+        }
+        cErro = ApagaArvore(palunosABB);
+        printf("\n\t*** %s ***\n",cErro==1? "Arvore apagada com sucesso"
+               :cErro==0? "Nao foi possivel apagar arvore": "Erro desconhecido");
         dashDiv();
         break;
       case 5:
-        //SELEÇÃO DO TIPO DA EXIBIÇÃO DE ÁRVORE: PRÉ, IN ou PÓS
-        printf("\n\t*** Lista completa do SA ***\n");
-        ExibirArvore(palunosABB);
+        if(isVazia(alunosABB)){
+          printf("\n\t*** Arvore vazia! ***\n");
+          dashDiv();
+          break;
+        }
+        printf("\n\t*** Escolha a forma de exibir a arvore: ***\n"
+               "\t*** (1) - Pre-ordem;\n"
+               "\t*** (2) - In-ordem;\n"
+               "\t*** (3) - Pos-ordem.\n"
+               "\t*** (4) - Exibicao grafica.\n"
+               "\t*** (5) - Todas as anteriores.\n"
+               "\t*** (0) - Voltar ao menu principal.\n\t");
+        scanf("%d", &sel);
+        getchar();
+        switch(sel){
+            case 1:
+              printf("\n\t*** Exibindo arvore em pre-ordem: ***\n");
+              ExibirArvorePre(alunosABB);
+              break;
+            case 2:
+              printf("\n\t*** Exibindo arvore em in-ordem: ***\n");
+              ExibirArvoreIn(alunosABB);
+              break;
+            case 3:
+              printf("\n\t*** Exibindo arvore em pos-ordem: ***\n");
+              ExibirArvorePos(alunosABB);
+              break;
+            case 4:
+              printf("\n\t*** Exibindo arvore graficamente em pre-ordem: ***\n");
+              ExibirArvorePre(alunosABB);
+              break;
+            case 5:
+              ExibirArvore(alunosABB);
+              break;
+            case 0:
+              printf("\n\t*** Voltando ao menu principal... ***\n");
+              sel = 1;
+              break;
+            default:
+              printf("\n\t*** Insira valor valida! ***\n");
+              break;
+          }
         dashDiv();
         break;
       case 0:
@@ -84,11 +169,11 @@ int main(){
 }
 
 /*
-1 – INSERIR – fornecer RGM e Nome
-2 – REMOVER UM NÓ – fornecer o RGM a remover
-3 – PESQUISAR – fornecer o RGM a pesquisar
-4 – ESVAZIAR A ÁRVORE
-5 – EXIBIR A ÁRVORE – três opções: PRÉ, IN ou PÓS
-0 – SAIR
+1 ï¿½ INSERIR ï¿½ fornecer RGM e Nome
+2 ï¿½ REMOVER UM Nï¿½ ï¿½ fornecer o RGM a remover
+3 ï¿½ PESQUISAR ï¿½ fornecer o RGM a pesquisar
+4 ï¿½ ESVAZIAR A ï¿½RVORE
+5 ï¿½ EXIBIR A ï¿½RVORE ï¿½ trï¿½s opï¿½ï¿½es: PRï¿½, IN ou Pï¿½S
+0 ï¿½ SAIR
 */
 

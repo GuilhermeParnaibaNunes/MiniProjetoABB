@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <locale.h>
 
 #ifndef GUI_H
 #define GUI_H
 
-/*Printa na tela uma divisória*/
+/*Printa na tela uma divisï¿½ria*/
 void dashDiv();
 
-/*Printa na tela um dado texto em formato padrão*/
+/*Printa na tela um dado texto em formato padrï¿½o*/
 //void printAsText(char *);
 
-/*Printa na tela um dado input em formato padrão*/
+/*Printa na tela um dado input em formato padrï¿½o*/
 //void printAsQuest(char *);
 
 #endif //GUI_H

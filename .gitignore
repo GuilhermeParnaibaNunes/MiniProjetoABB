@@ -1,0 +1,11 @@
+# Please ignore #
+###################
+
+*.exe
+*.o
+*.cbp
+*.depend
+*.layout
+
+###################
+# Really hope that's all #

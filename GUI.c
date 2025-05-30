@@ -11,3 +11,4 @@ void printAsText(char * t){
 void printAsQuest(char * t){
   printf("\n\t*** %s ", t);
 }
+*/
