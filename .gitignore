@@ -6,6 +6,7 @@
 *.cbp
 *.depend
 *.layout
+*.obj
 
 ###################
 # Really hope that's all #
