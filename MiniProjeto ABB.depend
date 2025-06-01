@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1748792231 source:c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\aluno.c
+	"Aluno.h"
+
+1748546604 c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\aluno.h
+	"GUI.h"
+
+1748792325 c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\gui.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+
+1748791694 source:c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\arvorebb.c
+	"ArvoreBB.h"
+
+1748787627 c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\arvorebb.h
+	"Aluno.h"
+
+1748792793 source:c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\main.c
+	"ArvoreBB.h"
+
+1748792208 source:c:\users\guilh\onedrive\햞ea de trabalho\codeblocks\estudos\ed\miniprojeto abb\gui.c
+	"GUI.h"
+

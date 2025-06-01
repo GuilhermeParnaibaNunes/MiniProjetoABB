@@ -1,12 +1,12 @@
 # Please ignore #
 ###################
 
-*.exe
-*.o
-*.cbp
-*.depend
-*.layout
-*.obj
+# *.exe
+# *.o
+# *.cbp
+# *.depend
+# *.layout
+# *.obj
 
 ###################
 # Really hope that's all #
