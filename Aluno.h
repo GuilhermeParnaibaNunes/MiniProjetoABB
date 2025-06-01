@@ -3,11 +3,11 @@
 #ifndef ALUNO_H
 #define ALUNO_H
 
-#define ERRO_NOME_INVALIDO  -1
-#define ERRO_NOME_TAMANHO    0
+#define ERRO_NOME_INVALIDO  0
+#define ERRO_NOME_TAMANHO   0
 
-#define ERRO_RGM_INVALIDO   -1
-#define ERRO_RGM_TAMANHO     0
+#define ERRO_RGM_INVALIDO   0
+#define ERRO_RGM_TAMANHO    0
 
 typedef struct Aluno {
   char nome[256];

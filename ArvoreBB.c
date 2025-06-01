@@ -95,7 +95,6 @@ int RemoverRGM(t_ArvoreBB *arvore, char *RGM) {
         printf("\t*** Aluno a ser removido: ***\n\t\tNome: %s\n\t\tRGM: [%s]", (*arvore)->aluno.nome, (*arvore)->aluno.RGM);
         // Nó encontrado, remover
         if ((*arvore)->nEsq == NULL) {
-
             t_ArvoreBB temp = (*arvore)->nDir;
             free(*arvore);
             *arvore = temp;
@@ -159,7 +158,8 @@ void ExibirArvore(t_ArvoreBB arvore) {
     printf("\n\t*** Arvore em pos-ordem: ***\n");
     ExibirArvorePos(arvore);
     printf("\n\t*** Exibicao grafica de arvore em pre-ordem: ***\n");
-
+    ExibirArvoreGUIPre(arvore);
+    printf("\n\t*** Fim da exibicao de arvore. ***\n");
 }
 
 void ExibirArvorePre(t_ArvoreBB arvore){

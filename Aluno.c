@@ -1,6 +1,5 @@
 #include "Aluno.h"
 
-
 int setAluno(t_Aluno *a, char *RGM, char *nome) {
   if(!setRGM(a, RGM))
     return 0;

@@ -13,7 +13,7 @@ typedef struct noA {
     struct noA * nEsq;
 } t_noA;
 
-/*t_ArvoreBB se torna outro nome para um ponteiro para n�s Aluno*/
+/*t_ArvoreBB se torna outro nome para um ponteiro para nós Aluno*/
 typedef t_noA * t_ArvoreBB;
 
 /*Cria um novo n� Aluno*/
@@ -25,7 +25,7 @@ t_ArvoreBB criaNoA();
     // - Retorna 1 para verdadeiro;
     // - Retorna 0 para falso;
     // - Recebe a �rvore sob an�lise.
-int Vazia(t_ArvoreBB);
+int isVazia(t_ArvoreBB);
 
 /*Insere um novo n� a �rvore:*/
     // - Retorna 1 para procedimento bem-sucedido;

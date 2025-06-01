@@ -1,12 +1,13 @@
 # Please ignore #
 ###################
 
-# *.exe
-# *.o
-# *.cbp
-# *.depend
-# *.layout
-# *.obj
+ *.exe
+ *.o
+ *.cbp
+ *.depend
+ *.layout
+ *.obj
+ *.vscode
 
 ###################
 # Really hope that's all #

@@ -1,9 +1,8 @@
 #include "ArvoreBB.h"
 
 int main(){
-  setlocale(LC_ALL, "Portuguese");
-  char continuar = 's';
-  int sel = 1, pos, cErro, val = 0;
+  setlocale(LC_ALL, "Portuguese_Brazil.utf8"); // Configura o locale para português do Brasil
+  int sel = 1, cErro, val = 0;
   t_ArvoreBB alunosABB = NULL;
   t_ArvoreBB *palunosABB = &alunosABB;
   t_Aluno aluno;
