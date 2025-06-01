@@ -8,7 +8,7 @@ int main(){
   t_ArvoreBB *palunosABB = &alunosABB;
   t_Aluno aluno;
   char *RGM[9], *nome[256];
-  dashDiv();
+  astDiv();
   FILE *file = fopen("dados.csv", "r"); //Leitura e inserção de dados do arquivo CSV
 
     if (file == NULL) {
@@ -17,7 +17,8 @@ int main(){
     }
 
     char buffer[267];
-    printf("\n\t*** Carregando dados do arquivo CSV: ***\n");
+    printAsText("Carregando dados do arquivo CSV:");
+    puts("");
     while (fgets(buffer, sizeof(buffer), file)) {
         char *token = strtok(buffer, ",");
         if (token != NULL) {
@@ -29,12 +30,18 @@ int main(){
         }
         InserirAluno(palunosABB, aluno); // Mínimo de mensagens
     }
-  dashDiv();
-
-  printf("\n\t*** Seja bem-vindo(a) ao nosso Sistema de Alunos (ABB)! ***\n");
+    fclose(file);
+    puts("");
+    printAsText("Árvore inicializada com sucesso!");
+    puts("");
+  astDiv();
+  
+  printf("\t\t");
+  printAsText("Seja bem-vindo(a) ao nosso Sistema de Alunos (ABB)!");
   dashDiv();
 
   while(sel){
+    puts("");
     printf("\t******MENU******\n"
            "\t*** (1) - Cadastrar aluno;\n"
            "\t*** (2) - Apagar aluno por RGM;\n"
@@ -44,78 +51,88 @@ int main(){
            "\t*** (0) - Sair do sistema.\n\t");
     scanf("%d", &sel);
     getchar();
+    puts("");
     switch(sel){
       case 1:
         while(!val){
-          printf("\n\t*** Informe o RGM do aluno: ");
+          printAsQuest("Informe o RGM do aluno:");
           fgets(RGM, sizeof(RGM), stdin);
           val = validaRGM(RGM);
         }
         val = 0;
         while(!val){
-          printf("\n\t*** Informe o nome do aluno: ");
+          printAsQuest("Informe o nome do aluno:");
           fgets(nome, sizeof(nome), stdin);
           val = validaNome(nome);
         }
         val = 0;
         cErro = setAluno(&aluno, RGM, nome);
-        printf("\n\t*** %s ***\n",cErro==1? "Aluno criado com sucesso: "
+        puts("");
+        printAsText(cErro==1? "Aluno criado com sucesso"
                :cErro==0? "Nao foi possivel criar aluno": "Erro desconhecido");
         cErro = InserirAluno(palunosABB, aluno);
-        printf("\n\t*** %s ***\n",cErro==1? "Aluno inserido com sucesso"
+        printAsText(cErro==1? "Aluno inserido com sucesso"
                :cErro==0? "Nao foi possivel inserir aluno": "Erro desconhecido");
         dashDiv();
         break;
       case 2:
         if(isVazia(alunosABB)){
-          printf("\n\t*** Arvore vazia! ***\n");
+          printAsText("Arvore vazia!");
           dashDiv();
           break;
         }
-        printf("\n\t*** Qual o RGM do aluno que deseja apagar? ");
+        printAsQuest("Qual o RGM do aluno que deseja apagar?");
         while(!val){
-          printf("\n\t*** Informe o RGM do aluno: ");
+          puts("");
+          printAsQuest("Informe o RGM do aluno:");
           fgets(RGM, sizeof(RGM), stdin);
           val = validaRGM(RGM);
         }
         val = 0;
         setRGM(&aluno, RGM); // Garante que o RGM procurado está no formato correto
         cErro = RemoverRGM(palunosABB, aluno.RGM);
-        printf("\n\t*** %s ***\n",cErro==1? "Aluno removido com sucesso"
+        puts("");
+        printAsText(cErro==1? "Aluno removido com sucesso"
                :cErro==0? "Nao foi possivel remover aluno": "Erro desconhecido");
         dashDiv();
         break;
       case 3:
         if(isVazia(alunosABB)){
-          printf("\n\t*** Arvore vazia! ***\n");
+          printAsText("Arvore vazia!");
           dashDiv();
           break;
         }
-        printf("\n\t*** Qual o RGM do aluno que deseja visualizar? ");
+        printAsQuest("Qual o RGM do aluno que deseja visualizar?");
         while(!val){
-          printf("\n\t*** Informe o RGM do aluno: ");
+          puts("");
+          printAsQuest("Informe o RGM do aluno:");
           fgets(RGM, sizeof(RGM), stdin);
           val = validaRGM(RGM);
         }
         val = 0;
         setRGM(&aluno, RGM); // Garante que o RGM procurado está no formato correto
+        puts("");
         ExibirAlunoRGM(alunosABB, aluno.RGM);
         dashDiv();
         break;
       case 4:
         if(isVazia(alunosABB)){
-          printf("\n\t*** Arvore vazia! ***\n");
+          printAsText("Arvore vazia!");
           dashDiv();
           break;
         }
-        cErro = ApagaArvore(palunosABB);
-        printf("\n\t*** %s ***\n",cErro==1? "Arvore apagada com sucesso"
+        cErro = ApagaArvore(alunosABB);
+        puts("");
+        printAsText(cErro==1? "Arvore apagada com sucesso"
                :cErro==0? "Nao foi possivel apagar arvore": "Erro desconhecido");
+        alunosABB = NULL; // Reseta a árvore para NULL após apagá-la
+        puts("");
+        printAsText("Sistema reiniciado com sucesso!");
         dashDiv();
         break;
       case 5:
         if(isVazia(alunosABB)){
-          printf("\n\t*** Arvore vazia! ***\n");
+          printAsText("Arvore vazia!");
           dashDiv();
           break;
         }
@@ -129,40 +146,47 @@ int main(){
         scanf("%d", &sel);
         getchar();
         switch(sel){
+          puts("");
             case 1:
-              printf("\n\t*** Exibindo arvore em pre-ordem: ***\n");
+              printAsText("Exibindo arvore em pre-ordem:");
+              puts("");
               ExibirArvorePre(alunosABB);
               break;
             case 2:
-              printf("\n\t*** Exibindo arvore em in-ordem: ***\n");
+              printAsText("Exibindo arvore em in-ordem:");
+              puts("");
               ExibirArvoreIn(alunosABB);
               break;
             case 3:
-              printf("\n\t*** Exibindo arvore em pos-ordem: ***\n");
+              printAsText("Exibindo arvore em pos-ordem:");
+              puts("");
               ExibirArvorePos(alunosABB);
               break;
             case 4:
-              printf("\n\t*** Exibindo arvore graficamente em pre-ordem: ***\n");
+              printAsText("Exibindo arvore graficamente em pre-ordem:");
+              puts("");
               ExibirArvorePre(alunosABB);
               break;
             case 5:
               ExibirArvore(alunosABB);
               break;
             case 0:
-              printf("\n\t*** Voltando ao menu principal... ***\n");
+              printAsText("Voltando ao menu principal...");
+              puts("");
               sel = 1;
               break;
             default:
-              printf("\n\t*** Insira valor valida! ***\n");
+              printAsText("Insira um valor valido!");
+              puts("");
               break;
           }
         dashDiv();
         break;
       case 0:
-        printf("\t*** Ate mais! ***\n");
+        printAsText("Até mais!");
         return 1;
       default:
-        printf("\t*** Insira valor valido ***\n");
+        printAsText("Insira um valor valido");
         break;
     }
   }

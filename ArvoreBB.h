@@ -38,7 +38,7 @@ int InserirAluno(t_ArvoreBB *, t_Aluno);
 // - Retorna 1 para procedimento bem-sucedido;
 // - Retorna 0 para �rvore vazia;
 // - Recebe a �rvore sob an�lise.
-int ApagaArvore(t_ArvoreBB *);
+int ApagaArvore(t_ArvoreBB);
 
 /*Remove um n� por RGM:*/
     // - Retorna 1 para procedimento bem-sucedido;

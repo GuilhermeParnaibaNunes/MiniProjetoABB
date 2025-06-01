@@ -1,5 +1,6 @@
 #include "Aluno.h"
 
+
 int setAluno(t_Aluno *a, char *RGM, char *nome) {
   if(!setRGM(a, RGM))
     return 0;
@@ -14,12 +15,6 @@ int setNome(t_Aluno *a, char *nome){
   size_t nameSize = strlen(nome);
   if(nameSize >= sizeof(a->nome))
     nameSize = sizeof(a->nome)-1;
-  printf("\n___DEBUG: Nome do aluno: %s\n", nome);
-  printf("\n___DEBUG: Tamanho do nome: %zu\n", nameSize);
-  printf("\n___DEBUG: Tamanho do array nome: %zu\n", sizeof(a->nome));
-  printf("\n___DEBUG: Tamanho do array nome - 1: %zu\n", sizeof(a->nome) - 1);
-  printf("\n___DEBUG: Nome do aluno (apenas): %s\n", nome);
-  printf("\n___DEBUG: Nome do aluno (apenas) - 1: %s\n", nome[nameSize - 1] == '\0' ? "null" : "not null");
   strncpy(a->nome, nome, nameSize); //Reduz tamanho do array char para a string em uso
   a->nome[nameSize-1] = '\0';
   return 1;

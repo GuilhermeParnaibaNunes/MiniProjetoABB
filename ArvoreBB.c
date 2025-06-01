@@ -28,26 +28,25 @@ int InserirAluno(t_ArvoreBB *arvore, t_Aluno aluno) {
     }
 
     if (*arvore == NULL) {
-        printf("\n___DEBUG: (*arvore == NULL)\n");
         *arvore = criaNoA();
         if (*arvore == NULL){
-            printf("\n___DEBUG: (*arvore == NULL) - 2\n");
             return 0; // Retorna 0 se não conseguir alocar memória
         }
         (*arvore)->aluno = aluno;
-        printf("\n\t*** Aluno inserido com sucesso: Nome: %s | RGM: [%s] ***\n", aluno.nome, aluno.RGM);
-        printf("\n\t*** Aluno inserido com sucesso: Nome: %s | RGM: [%s] ***\n", (*arvore)->aluno.nome, (*arvore)->aluno.RGM);
+        printf("\n\t*** Aluno a ser inserido: ***\n\t\tNome: %s\n\t\tRGM: [%s]\n", (*arvore)->aluno.nome, (*arvore)->aluno.RGM);
         return 1;
     }
 
-    printf("\n___DEBUG: (*arvore != NULL)\n");
-    printf("\n\t*** Tentando inserir aluno: Nome: %s | RGM: [%s] ***\n", aluno.nome, aluno.RGM);
-    printf("\n\t*** Aluno atual: Nome: %s | RGM: %s ***\n", (*arvore)->aluno.nome, (*arvore)->aluno.RGM);
-    printf("\n\t*** Comparando RGM: %s com %s ***\n", aluno.RGM, (*arvore)->aluno.RGM);
+    /*PRINTS PARA DEBUGAÇÃO DE PROCURA PARA INSERÇÃO*/
+    //printf("\n\t*** Tentando inserir aluno: Nome: %s | RGM: [%s] ***\n", aluno.nome, aluno.RGM);
+    //printf("\n\t*** Aluno atual: Nome: %s | RGM: %s ***\n", (*arvore)->aluno.nome, (*arvore)->aluno.RGM);
+    //printf("\n\t*** Comparando RGM: %s com %s ***\n", aluno.RGM, (*arvore)->aluno.RGM);
     int cmp = comparaRGM(aluno.RGM, (*arvore)->aluno.RGM);
 
     if (cmp == 0) {
-        printf("\n\t*** O RGM fornecido ja existe na arvore, por isso nao eh possivel inseri-lo. ***");
+        puts("");
+        printAsText("O RGM fornecido ja existe na arvore, por isso nao eh possivel inseri-lo.");
+        puts("");
         return 0;
     } else if (cmp > 0) {
         return InserirAluno(&(*arvore)->nDir, aluno);
@@ -56,16 +55,15 @@ int InserirAluno(t_ArvoreBB *arvore, t_Aluno aluno) {
     }
 }
 
-int ApagaArvore(t_ArvoreBB *arvore) {
-    if (arvore == NULL || *arvore == NULL){
+int ApagaArvore(t_ArvoreBB arvore) {
+    if (arvore == NULL){
         return 0;
     }
 
-    ApagaArvore((*arvore)->nDir);
-    ApagaArvore((*arvore)->nEsq);
-    printf("\n\t*** Apagando aluno: Nome: %s | RGM: [%s] ***\n", (*arvore)->aluno.nome, (*arvore)->aluno.RGM);
-    free((*arvore));
-    (*arvore) = NULL; // Atribui NULL para o ponteiro da árvore para evitar dangling pointers
+    ApagaArvore(arvore->nDir);
+    ApagaArvore(arvore->nEsq);
+    printf("\n\t*** Apagando aluno: ***\n\t\tNome: %s | RGM: [%s]\n", arvore->aluno.nome, arvore->aluno.RGM);
+    free(arvore);
     return 1;
 }
 
@@ -81,12 +79,12 @@ int RemoverRGM(t_ArvoreBB *arvore, char *RGM) {
         return 0;
     }
     if(*arvore == NULL) {
-        printf("\n\t*** Ponteiro para arvore invalido. ***");
+        printf("\n\t*** Aluno com RGM %s nao encontrado. ***", RGM);
         return 0;
     }
 
-    printf("\n___DEBUG: (*arvore != NULL)\n");
-    printf("\n\t*** Comparando RGM: %s com [%s] ***\n", RGM, (*arvore)->aluno.RGM);
+    /*PRINT PARA DEBUGAÇÃO DE PROCURA PARA REMOÇÃO*/
+    //printf("\n\t*** Comparando RGM: %s com [%s] ***\n", RGM, (*arvore)->aluno.RGM);
     int cmp = comparaRGM(RGM, (*arvore)->aluno.RGM);
 
     if (cmp > 0) {
@@ -125,7 +123,6 @@ t_Aluno ProcurarRGM(t_ArvoreBB *arvore, char *RGM) {
         return vazio;
     }
     if(*arvore == NULL){
-        printf("\n\t*** Ponteiro para arvore ou arvore invalido(a). ***");
         return vazio; // Retorna aluno vazio se a árvore for inválida
     }
 
@@ -143,9 +140,11 @@ t_Aluno ProcurarRGM(t_ArvoreBB *arvore, char *RGM) {
 void ExibirAlunoRGM(t_ArvoreBB arvore, char *RGM) {
     t_Aluno aluno = ProcurarRGM(&arvore, RGM);
     if (aluno.RGM[0] == '\0') {
-        printf("\t*** Aluno com RGM %s nao encontrado. ***", RGM);
+        printf("\n\t*** Aluno com RGM %s nao encontrado. ***\n", RGM);
+        printAsText("Não foi possivel exibir aluno.");
     } else {
         printf("\t*** Aluno encontrado: ***\n\t\tNome: %s\n\t\tRGM: [%s]\n", aluno.nome, aluno.RGM);
+        printAsText("Aluno exibido com sucesso.");
     }
 }
 
