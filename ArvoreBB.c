@@ -158,8 +158,8 @@ void ExibirArvore(t_ArvoreBB arvore) {
     printf("\n\t*** Arvore em pos-ordem: ***\n");
     ExibirArvorePos(arvore);
     printf("\n\t*** Exibicao grafica de arvore em pre-ordem: ***\n");
-    ExibirArvoreGUIPre(arvore);
-    printf("\n\t*** Fim da exibicao de arvore. ***\n");
+    ExibirArvoreGUIRec(arvore, "", 1);
+    printf("\n\t*** Fim da exibicao de arvore ***\n");
 }
 
 void ExibirArvorePre(t_ArvoreBB arvore){
@@ -189,9 +189,30 @@ void ExibirArvorePos(t_ArvoreBB arvore){
     printf("\t\tNome: %s | RGM: %s\n", arvore->aluno.nome, arvore->aluno.RGM);
 }
 
-void ExibirArvoreGUIPre(t_ArvoreBB arvore){
-    if (arvore == NULL) {
+// Função recursiva auxiliar para exibir a árvore com formatação gráfica
+void ExibirArvoreGUIRec(t_ArvoreBB arvore, const char *prefixo, int ehUltimo) {
+    if (arvore == NULL)
         return;
+    printf("%s", prefixo);
+    printf("%s", ehUltimo ? "'--- " : "/--- ");
+    printf("%s [%s]\n", arvore->aluno.nome, arvore->aluno.RGM);
+
+    char novoPrefixo[100];
+    snprintf(novoPrefixo, sizeof(novoPrefixo), "%s%s", prefixo, ehUltimo ? "    " : "/   ");
+
+    // Se possui os dois filhos, exibe primeiro a esquerda (não é o último) e depois a direita (último)
+    if (arvore->nEsq && arvore->nDir) {
+        ExibirArvoreGUIRec(arvore->nEsq, novoPrefixo, 0);
+        ExibirArvoreGUIRec(arvore->nDir, novoPrefixo, 1);
+
+    // Se tem apenas o filho da esquerda, ele é tratado como o último
+    } else if (arvore->nEsq) {
+        ExibirArvoreGUIRec(arvore->nEsq, novoPrefixo, 1);
+
+    // Se tem apenas o filho da direita, também é o último
+    } else if (arvore->nDir) {
+        ExibirArvoreGUIRec(arvore->nDir, novoPrefixo, 1);
     }
-//IMPLEMENTAÇÃO DA FUNÇÃO PARA EXIBIR A ÁRVORE GRAFICAMENTE EM PRÉ-ORDEM
+    //"/---" é a esquerda
+    //"!---" é a direita
 }

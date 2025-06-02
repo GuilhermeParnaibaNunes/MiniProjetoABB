@@ -22,7 +22,7 @@ int setNome(t_Aluno *a, char *nome){
 int setRGM(t_Aluno *a, char *RGM){
   if(!validaRGM(RGM))
     return 0;
-  strncpy(a->RGM, RGM, 9);
+  strncpy(a->RGM, RGM, 8);
   a->RGM[8] = '\0';
   return 1;
 }

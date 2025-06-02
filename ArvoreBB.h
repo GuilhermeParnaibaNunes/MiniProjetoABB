@@ -82,7 +82,11 @@ void ExibirArvorePos(t_ArvoreBB);
 
 /*Exibe árvore graficamente em pré-ordem:*/
     // - Sem retorno;
-    // - Recebe a árvore.
-void ExibirArvoreGUIPre(t_ArvoreBB);
+    // - Recebe a árvore;
+    // - Recebe o prefixo para formatação;
+    // - Recebe se é o último nó.
+void ExibirArvoreGUIRec(t_ArvoreBB, const char *, int);
+
+void exibirGraficamente(t_ArvoreBB, int, int, int);
 
 #endif// ARVOREBB_H

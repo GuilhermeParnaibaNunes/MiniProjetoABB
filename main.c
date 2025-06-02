@@ -21,11 +21,13 @@ int main(){
     while (fgets(buffer, sizeof(buffer), file)) {
         char *token = strtok(buffer, ",");
         if (token != NULL) {
-            strncpy(aluno.nome, token, 256);
+            strncpy(aluno.nome, token, sizeof(aluno.nome) - 1);
+            aluno.nome[sizeof(aluno.nome) - 1] = '\0';
         }
         token = strtok(NULL, ",");
         if (token != NULL) {
-            strncpy(aluno.RGM, token, 8);
+            strncpy(aluno.RGM, token, sizeof(aluno.RGM) - 1);
+            aluno.RGM[sizeof(aluno.RGM) - 1] = '\0';
         }
         InserirAluno(palunosABB, aluno); // Mínimo de mensagens
     }
@@ -34,7 +36,7 @@ int main(){
     printAsText("Árvore inicializada com sucesso!");
     puts("");
   astDiv();
-  
+
   printf("\t\t");
   printAsText("Seja bem-vindo(a) ao nosso Sistema de Alunos (ABB)!");
   dashDiv();
@@ -145,7 +147,6 @@ int main(){
         scanf("%d", &sel);
         getchar();
         switch(sel){
-          puts("");
             case 1:
               printAsText("Exibindo arvore em pre-ordem:");
               puts("");
